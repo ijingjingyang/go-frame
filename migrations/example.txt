@@ -1,0 +1,26 @@
+-- 查看帮助：go run main.go migrate
+-- 创建迁移文件：go run main.go migrate create your-filename(文件名建议使用中划线隔开)
+-- 查看迁移文件执行情况：go run main.go migrate status
+-- 执行迁移文件：go run main.go migrate up
+-- 执行回滚操作（每次执行只回滚一个迁移文件）：go run main.go migrate down [filename, 可选]
+
+-- 迁移文件示例：
+-- +migrate Up
+-- 当执行sql-migrate up命令时触发：
+CREATE TABLE IF NOT EXISTS migrate_1 (id int);
+CREATE TABLE IF NOT EXISTS migrate_2 (id int);
+
+-- 多行或者复杂的sql语句，使用StatementBegin和StatementEnd包裹
+-- +migrate Up
+-- +migrate StatementBegin
+CREATE TABLE IF NOT EXISTS `test_table` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='test_table';
+-- +migrate StatementEnd
+
+-- +migrate Down
+-- 当执行sql-migrate down命令时触发：
+DROP TABLE migrate_1;
+DROP TABLE migrate_2;
+DROP TABLE test_table;

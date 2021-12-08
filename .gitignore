@@ -1,0 +1,9 @@
+render/string.go
+*.ini
+*.toml
+.idea
+vendor
+.DS_Store
+*.pri
+*.pub
+*.log
